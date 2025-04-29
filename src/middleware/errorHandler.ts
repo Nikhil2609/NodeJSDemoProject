@@ -1,6 +1,7 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import {
   DatabaseError,
+  ForeignKeyConstraintError,
   UniqueConstraintError,
   ValidationError
 } from 'sequelize';
@@ -42,13 +43,19 @@ export const errorHandler = (
     return ErrorResponse(res, STATUS_CODE.BAD_REQUEST, errorMessage);
   }
 
+  // Foreign key constraint error (child references missing)
+  if (err instanceof ForeignKeyConstraintError) {
+    const errorMessage = `Foreign key constraint error: ' + (${err.message || 'Invalid foreign key reference'}`;
+    return ErrorResponse(res, STATUS_CODE.BAD_REQUEST, errorMessage);
+  }
+
   // missing column, invalid column
   if (err instanceof DatabaseError) {
     const errorMessage = err?.message;
     return ErrorResponse(res, STATUS_CODE.BAD_REQUEST, errorMessage);
   }
 
-  return res.status(500).json({
+  return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
     error: err?.message || 'Internal Server Error'
   });
 };
