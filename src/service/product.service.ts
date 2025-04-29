@@ -1,3 +1,4 @@
+import { ProductModal } from '../models/products.modal';
 import ProductRepository from '../repository/product.repository';
 
 export default class ProductService {
@@ -7,8 +8,8 @@ export default class ProductService {
     this.productRepository = productRepository;
   }
 
-  getProducts = async () => {
-    const categories = await this.productRepository.getCategories();
+  getProducts = async (offsetRows: number) => {
+    const categories = await this.productRepository.getCategories(offsetRows);
     return categories;
   };
 
@@ -17,7 +18,7 @@ export default class ProductService {
     return product;
   };
 
-  createProduct = async (productData: any) => {
+  createProduct = async (productData: ProductModal) => {
     const newProduct = await this.productRepository.createProduct(productData);
     return newProduct;
   };

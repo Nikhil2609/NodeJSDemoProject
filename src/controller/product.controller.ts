@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import ProductService from '../service/product.service';
 import { ErrorResponse, SendResponse } from '../utils/responsehelper';
 import { STATUS_CODE } from '../utils/enum';
-import { CATEGORY_MESSAGE } from '../utils/messages';
+import { PRODUCT_MESSAGE } from '../utils/messages';
+import { MetaPaginationResponse } from '../utils/interface/IApiResponse';
+import { PerPageRows } from '../utils/constant';
 
 export default class ProductController {
   private productService: ProductService;
@@ -12,8 +14,20 @@ export default class ProductController {
   }
 
   getProducts = async (req: Request, res: Response) => {
-    const products = await this.productService.getProducts();
-    return SendResponse(res, STATUS_CODE.OK, products, CATEGORY_MESSAGE.FETCH);
+    const currentPage = Number(req.query.page || 1);
+    const offsetRows = Number((currentPage - 1) * PerPageRows);
+
+    const response = await this.productService.getProducts(offsetRows);
+    const metaResponse: MetaPaginationResponse = {
+      totalRows: response.count
+    };
+    return SendResponse(
+      res,
+      STATUS_CODE.OK,
+      response.rows,
+      PRODUCT_MESSAGE.FETCH,
+      metaResponse
+    );
   };
 
   getProductById = async (req: Request, res: Response) => {
@@ -23,25 +37,21 @@ export default class ProductController {
       return ErrorResponse(
         res,
         STATUS_CODE.NOT_FOUND,
-        CATEGORY_MESSAGE.NOT_FOUND
+        PRODUCT_MESSAGE.NOT_FOUND
       );
     }
-    return SendResponse(res, STATUS_CODE.OK, Product, CATEGORY_MESSAGE.FETCH);
+    return SendResponse(res, STATUS_CODE.OK, Product, PRODUCT_MESSAGE.FETCH);
   };
 
   createProduct = async (req: Request, res: Response) => {
     const productData = req.body;
-    try {
-      const newProduct = await this.productService.createProduct(productData);
-      return SendResponse(
-        res,
-        STATUS_CODE.CREATED,
-        newProduct,
-        CATEGORY_MESSAGE.CREATE
-      );
-    } catch (error) {
-      console.log('error=>', error);
-    }
+    const newProduct = await this.productService.createProduct(productData);
+    return SendResponse(
+      res,
+      STATUS_CODE.CREATED,
+      newProduct,
+      PRODUCT_MESSAGE.CREATE
+    );
   };
 
   updateProduct = async (req: Request, res: Response) => {
@@ -56,7 +66,7 @@ export default class ProductController {
       return ErrorResponse(
         res,
         STATUS_CODE.NOT_FOUND,
-        CATEGORY_MESSAGE.NOT_FOUND
+        PRODUCT_MESSAGE.NOT_FOUND
       );
     }
 
@@ -64,7 +74,7 @@ export default class ProductController {
       res,
       STATUS_CODE.OK,
       updatedProduct,
-      CATEGORY_MESSAGE.UPDATE
+      PRODUCT_MESSAGE.UPDATE
     );
   };
 
@@ -76,10 +86,10 @@ export default class ProductController {
       return ErrorResponse(
         res,
         STATUS_CODE.NOT_FOUND,
-        CATEGORY_MESSAGE.NOT_FOUND
+        PRODUCT_MESSAGE.NOT_FOUND
       );
     }
 
-    return SendResponse(res, STATUS_CODE.OK, null, CATEGORY_MESSAGE.DELETE);
+    return SendResponse(res, STATUS_CODE.OK, null, PRODUCT_MESSAGE.DELETE);
   };
 }

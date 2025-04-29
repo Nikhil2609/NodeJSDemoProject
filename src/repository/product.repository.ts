@@ -1,21 +1,27 @@
+import { CategoryModal } from '../models/category.modal';
 import { ProductModal } from '../models/products.modal';
+import { PerPageRows } from '../utils/constant';
 
 export default class ProductRepository {
-  constructor() {}
+  constructor() { }
 
-  getCategories = async () => {
-    return await ProductModal.findAll();
+  getCategories = async (offsetRows: number) => {
+    return await ProductModal.findAndCountAll({
+      include: { model: CategoryModal, as: 'category' },
+      offset: offsetRows,
+      limit: PerPageRows,
+    });
   };
 
   getProductById = async (productId: string) => {
     return await ProductModal.findOne({ where: { id: productId } });
   };
 
-  createProduct = async (productData: any) => {
+  createProduct = async (productData: Partial<ProductModal>) => {
     return await ProductModal.create(productData);
   };
 
-  updateProduct = async (productId: string, productData: any) => {
+  updateProduct = async (productId: string, productData: ProductModal) => {
     const product = await ProductModal.findOne({ where: { id: productId } });
     if (!product) {
       return null;
