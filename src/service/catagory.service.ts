@@ -7,8 +7,8 @@ export default class CategoryService {
     this.categoryRepository = categoryRepository;
   }
 
-  getCategories = async () => {
-    const categories = await this.categoryRepository.getCategories();
+  getCategories = async (offsetRows: number) => {
+    const categories = await this.categoryRepository.getCategories(offsetRows);
     return categories;
   };
 

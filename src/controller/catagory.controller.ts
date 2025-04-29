@@ -13,12 +13,19 @@ export default class CategoryController {
 
   getCategories = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const customers = await this.categoryService.getCategories();
+      const currentPage = Number(req.query.page || 1);
+      const offsetRows = Number((currentPage - 1) * 10);
+      const categoriesResponse =
+        await this.categoryService.getCategories(offsetRows);
+      const metaResponse = {
+        totalRows: categoriesResponse.count
+      };
       return SendResponse(
         res,
         STATUS_CODE.OK,
-        customers,
-        CATEGORY_MESSAGE.FETCH
+        categoriesResponse.rows,
+        CATEGORY_MESSAGE.FETCH,
+        metaResponse
       );
     } catch (error) {
       next(error);
@@ -27,8 +34,8 @@ export default class CategoryController {
 
   getCategoryById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const customerId = req.params.id;
-      const category = await this.categoryService.getCategoryById(customerId);
+      const categoryId = req.params.id;
+      const category = await this.categoryService.getCategoryById(categoryId);
       if (!category) {
         return ErrorResponse(
           res,
@@ -48,14 +55,14 @@ export default class CategoryController {
   };
 
   createCategory = async (req: Request, res: Response) => {
-    const customerData = req.body;
+    const categoryData = req.body;
     try {
-      const newCustomer =
-        await this.categoryService.createCategory(customerData);
+      const newCategory =
+        await this.categoryService.createCategory(categoryData);
       return SendResponse(
         res,
         STATUS_CODE.CREATED,
-        newCustomer,
+        newCategory,
         CATEGORY_MESSAGE.CREATE
       );
     } catch (error) {
@@ -89,10 +96,10 @@ export default class CategoryController {
 
   deleteCategory = async (req: Request, res: Response) => {
     const customerId = req.params.id;
-    const deletedCustomer =
+    const deletedCategory =
       await this.categoryService.deleteCategory(customerId);
 
-    if (!deletedCustomer) {
+    if (!deletedCategory) {
       return ErrorResponse(
         res,
         STATUS_CODE.NOT_FOUND,

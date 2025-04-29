@@ -1,8 +1,16 @@
 export interface APIResponse {
   data?: any;
-  meta?: any;
+  meta?: MetaTokenResponse | MetaPaginationResponse;
   message?: string;
   error?: string;
+}
+
+export interface MetaTokenResponse {
+  token?: string;
+}
+
+export interface MetaPaginationResponse {
+  totalRows: number;
 }
 
 export interface LoginBody {

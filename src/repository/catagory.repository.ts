@@ -1,10 +1,14 @@
 import { CategoryModal } from '../models/category.modal';
+import { PerPageRows } from '../utils/constant';
 
 export default class CategoryRepository {
   constructor() {}
 
-  getCategories = async () => {
-    return await CategoryModal.findAll();
+  getCategories = async (offsetRows: number) => {
+    return await CategoryModal.findAndCountAll({
+      offset: offsetRows,
+      limit: PerPageRows
+    });
   };
 
   getCategoryById = async (categoryId: string) => {
