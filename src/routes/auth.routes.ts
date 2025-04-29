@@ -1,17 +1,15 @@
 import express from 'express';
+import AuthRepository from '../repository/auth.repository';
+import AuthService from '../service/auth.service';
+import AuthController from '../controller/auth.controller';
 
 const authRouter = express.Router();
 
-authRouter.post('/login', (req, res) => {
-  const body = req.body;
-  console.log('body=>', body);
-  // res.status(200).json({ message: 'Get all customer' });
-});
+const authRepository = new AuthRepository();
+const authService = new AuthService(authRepository);
+const authController = new AuthController(authService);
 
-authRouter.post('/register', (req, res) => {
-  const body = req.body;
-  console.log('body=>', body);
-  res.status(201).json({ message: 'Create a new customer' });
-});
+authRouter.post('/login', authController.login);
+authRouter.post('/register', authController.register);
 
 export default authRouter;
