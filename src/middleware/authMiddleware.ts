@@ -12,7 +12,11 @@ export const authorizeToken = (
 ) => {
   const token = req.headers.token as string;
   if (!token) {
-    return ErrorResponse(res, STATUS_CODE.UNAUTHORIZED, AUTH_MESSAGE.UNAUTHORIZED);
+    return ErrorResponse(
+      res,
+      STATUS_CODE.UNAUTHORIZED,
+      AUTH_MESSAGE.UNAUTHORIZED
+    );
   }
   // verify token logic here
   try {
@@ -21,6 +25,10 @@ export const authorizeToken = (
     (req as any).user = verifyToken;
     next();
   } catch (error) {
-    return ErrorResponse(res, STATUS_CODE.UNAUTHORIZED, AUTH_MESSAGE.INVALID_TOKEN);
+    return ErrorResponse(
+      res,
+      STATUS_CODE.UNAUTHORIZED,
+      AUTH_MESSAGE.INVALID_TOKEN
+    );
   }
 };
