@@ -1,11 +1,12 @@
 import { Response } from 'express';
-import { APIResponse } from '../interface/apiResponse';
+import { APIResponse } from './interface/IApiResponse';
 
 export const SendResponse = (
   response: Response,
   statusCode: number = 200,
   data: any,
-  message: string
+  message: string,
+  meta?: any
 ) => {
   let responseJson: APIResponse = {} as APIResponse;
   responseJson = {
@@ -13,6 +14,13 @@ export const SendResponse = (
     data: data,
     message: message || ''
   };
+
+  if (meta) {
+    responseJson = {
+      ...responseJson,
+      meta: meta
+    };
+  }
 
   return response.status(statusCode).json(responseJson);
 };

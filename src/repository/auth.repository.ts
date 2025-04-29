@@ -1,4 +1,4 @@
-import { LoginBody } from '../utils/interface/apiResponse';
+import { LoginBody } from '../utils/interface/IApiResponse';
 import { UserModal } from '../models/user.modal';
 
 export default class AuthRepository {

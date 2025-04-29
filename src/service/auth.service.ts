@@ -1,4 +1,4 @@
-import { LoginBody } from '../utils/interface/apiResponse';
+import { LoginBody } from '../utils/interface/IApiResponse';
 import AuthRepository from '../repository/auth.repository';
 
 export default class AuthService {
