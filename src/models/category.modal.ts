@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../db';
+import { ProductModal } from './products.modal';
 
 export class CategoryModal extends Model {
   declare id: number;
@@ -25,3 +26,12 @@ CategoryModal.init(
     timestamps: false
   }
 );
+
+// CategoryModal.hasMany(ProductModal, {
+//   foreignKey: 'category_id',
+//   as: 'products'
+// });
+// ProductModal.belongsTo(CategoryModal, {
+//   foreignKey: 'category_id',
+//   as: 'category'
+// });

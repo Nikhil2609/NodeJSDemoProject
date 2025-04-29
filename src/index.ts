@@ -1,11 +1,12 @@
 import express from 'express';
-import "express-async-errors"; // handle async errors without try-catch
+import 'express-async-errors'; // handle async errors without try-catch
 import router from './routes';
 import { connectDatabase } from './db';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { requestLogger } from './middleware/logger';
 import { errorHandler } from './middleware/errorHandler';
+import { setupAssociations } from './models/associations';
 
 dotenv.config();
 
@@ -19,7 +20,11 @@ app.use(requestLogger);
 // routes
 app.use('/api', router);
 
+// connect to database
 connectDatabase();
+
+// setup database associations
+setupAssociations();
 
 // no route found
 app.use('/', (req, res, next) => {
