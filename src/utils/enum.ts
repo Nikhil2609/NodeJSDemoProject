@@ -1,3 +1,7 @@
-export const HTTP_STATUS_CODE = Object.freeze({
-  OK: 200
+export const STATUS_CODE = Object.freeze({
+  OK: 200,
+  CREATED: 201,
+  NOT_FOUND: 404,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401
 });
