@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import { requestLogger } from './middleware/logger';
 import { errorHandler } from './middleware/errorHandler';
 import { setupAssociations } from './models/associations';
+import path from 'path';
 import helmet from 'helmet';
 
 dotenv.config();
