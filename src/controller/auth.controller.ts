@@ -54,7 +54,7 @@ export default class AuthController {
     body.password = haspassword;
     try {
       const customer = await this.authService.register(req.body);
-      await sendWelcomeEmail(body.email, body.name);
+      sendWelcomeEmail(body.email, body.name);
       return SendResponse(
         res,
         STATUS_CODE.CREATED,

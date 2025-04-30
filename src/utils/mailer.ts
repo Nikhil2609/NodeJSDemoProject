@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import ejs from 'ejs';
+import path from 'path';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -11,18 +13,40 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export const sendWelcomeEmail = async (to: string, name: string) => {
+export const sendEmail = async (
+  to: string,
+  name: string,
+  emailSubject,
+  emailContent: any
+) => {
+  const htmlWithLayout = await ejs.renderFile(
+    path.join(__dirname, '../views/emails/layout.ejs'),
+    { subject: emailSubject, body: emailContent }
+  );
+
   const mailOptions = {
-    from: '"My App" <your-email@gmail.com>', // sender address
+    from: 'nikpanchal333@gmail.com', // sender address
     to: to,
     subject: 'Welcome to My App 🎉',
-    html: `<h1>Hello ${name},</h1><p>Welcome to My App! We're excited to have you.</p>`
+    html: htmlWithLayout
   };
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Welcome Email Sent: ', info.messageId);
+    console.log('Welcome Email Sent: ', info.messageId);
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error('Error sending email:', error);
   }
+};
+
+export const sendWelcomeEmail = async (to: string, name: string) => {
+  const emailContent = await ejs.renderFile(
+    path.join(__dirname, '../views/emails/register-user.ejs'),
+    { name: 'Nikhil', email: 'nikhil.panchal@tatvasoft.com' }
+  );
+
+  const emailSubject = 'User Registration';
+
+  await sendEmail(to, name, emailSubject, emailContent);
+  return;
 };

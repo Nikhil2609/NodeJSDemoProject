@@ -27,6 +27,13 @@ export default class CategoryController {
         CATEGORY_MESSAGE.FETCH,
         metaResponse
       );
+
+      // render EJS template
+      // return res.render("categories", {
+      //   categories: categoriesResponse.rows,
+      //   currentPage: currentPage
+      // }
+      // );
     } catch (error) {
       next(error);
     }

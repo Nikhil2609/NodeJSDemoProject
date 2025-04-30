@@ -12,6 +12,10 @@ dotenv.config();
 
 const app = express();
 
+// render engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // middleware
 app.use(express.json());
 app.use(morgan());
