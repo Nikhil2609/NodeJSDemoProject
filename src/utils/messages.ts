@@ -22,7 +22,9 @@ export const CATEGORY_MESSAGE = {
   UPDATE: 'Category updated successfully.',
   DELETE: 'Category deleted successfully.',
   FETCH: 'Category fetched successfully.',
-  NOT_FOUND: 'Category not found.'
+  NOT_FOUND: 'Category not found.',
+  CATEGORY_EXIST_IN_PRODUCT:
+    'You cannot delete this category because it is associated with products.'
 };
 
 export const PRODUCT_MESSAGE = {

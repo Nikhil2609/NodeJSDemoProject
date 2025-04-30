@@ -36,4 +36,10 @@ export default class CategoryService {
       await this.categoryRepository.deleteCategory(categoryId);
     return deletedCategory;
   };
+
+  getProductsByCategory = async (categoryId: string) => {
+    const products =
+      await this.categoryRepository.getProductsByCategory(categoryId);
+    return products;
+  };
 }

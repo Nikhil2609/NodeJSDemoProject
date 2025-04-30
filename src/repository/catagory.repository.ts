@@ -1,4 +1,5 @@
 import { CategoryModal } from '../models/category.modal';
+import { ProductModal } from '../models/products.modal';
 import { PerPageRows } from '../utils/constant';
 
 export default class CategoryRepository {
@@ -35,5 +36,12 @@ export default class CategoryRepository {
     }
     await category.destroy();
     return category;
+  };
+
+  getProductsByCategory = async (categoryId: string) => {
+    const products = await ProductModal.findAll({
+      where: { category_id: categoryId }
+    });
+    return products;
   };
 }

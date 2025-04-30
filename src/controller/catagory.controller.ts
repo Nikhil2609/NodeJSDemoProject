@@ -103,6 +103,17 @@ export default class CategoryController {
 
   deleteCategory = async (req: Request, res: Response) => {
     const customerId = req.params.id;
+
+    const categoryExistInProducts =
+      await this.categoryService.getProductsByCategory(customerId);
+    if (categoryExistInProducts?.length > 0) {
+      return ErrorResponse(
+        res,
+        STATUS_CODE.BAD_REQUEST,
+        CATEGORY_MESSAGE.CATEGORY_EXIST_IN_PRODUCT
+      );
+    }
+
     const deletedCategory =
       await this.categoryService.deleteCategory(customerId);
 
