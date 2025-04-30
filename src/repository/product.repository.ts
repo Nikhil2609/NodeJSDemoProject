@@ -3,13 +3,13 @@ import { ProductModal } from '../models/products.modal';
 import { PerPageRows } from '../utils/constant';
 
 export default class ProductRepository {
-  constructor() { }
+  constructor() {}
 
   getCategories = async (offsetRows: number) => {
     return await ProductModal.findAndCountAll({
       include: { model: CategoryModal, as: 'category' },
       offset: offsetRows,
-      limit: PerPageRows,
+      limit: PerPageRows
     });
   };
 
