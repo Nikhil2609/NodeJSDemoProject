@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import { requestLogger } from './middleware/logger';
 import { errorHandler } from './middleware/errorHandler';
 import { setupAssociations } from './models/associations';
+import helmet from 'helmet';
 
 dotenv.config();
 
@@ -17,9 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // middleware
-app.use(express.json());
-app.use(morgan());
-app.use(requestLogger);
+app.use(helmet()); // security middleware
 
 // routes
 app.use('/api', router);
