@@ -34,7 +34,7 @@ export default class AuthController {
       }
 
       // generate token
-      const token = jwt.sign(req.body, process.env.JWT_SECRET as string);
+      const token = jwt.sign(req.body, process.env.JWT_SECRET as string, { expiresIn: process.env.JWT_EXPIRES as any });
       const metadata = { token };
       return SendResponse(
         res,
