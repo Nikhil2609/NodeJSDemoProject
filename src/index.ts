@@ -20,6 +20,8 @@ app.set('views', path.join(__dirname, 'views'));
 // middleware
 app.use(helmet()); // security middleware
 app.use(express.json()); // parse JSON
+app.use(morgan());  // log requests
+app.use(requestLogger); // custom request logger
 
 // routes
 app.use('/api', router);
