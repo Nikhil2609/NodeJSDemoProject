@@ -9,11 +9,14 @@ export const SendResponse = (
   meta?: any
 ) => {
   let responseJson: APIResponse = {} as APIResponse;
-  responseJson = {
-    ...responseJson,
-    data: data,
-    message: message || ''
-  };
+
+  if (data) {
+    responseJson = {
+      ...responseJson,
+      data: data,
+      message: message || ''
+    };
+  }
 
   if (meta) {
     responseJson = {
@@ -21,6 +24,11 @@ export const SendResponse = (
       meta: meta
     };
   }
+
+  responseJson = {
+    ...responseJson,
+    message: message || ''
+  };
 
   return response.status(statusCode).json(responseJson);
 };
