@@ -5,8 +5,8 @@ import { STATUS_CODE } from '../utils/enum';
 import { UserModal } from '../models/user.modal';
 import bcrypt from 'bcrypt';
 import { AUTH_MESSAGE } from '../utils/messages';
-import jwt from 'jsonwebtoken';
 import { sendWelcomeEmail } from '../utils/mailer';
+import { generateToken } from '../utils/commonFunction';
 
 export default class AuthController {
   private authService: AuthService;
@@ -34,12 +34,16 @@ export default class AuthController {
       }
 
       // generate token
-      const token = jwt.sign(req.body, process.env.JWT_SECRET as string, { expiresIn: process.env.JWT_EXPIRES as any });
+      const token = generateToken(req.body);
       const metadata = { token };
+
+      let customerResponse = JSON.parse(JSON.stringify(customer)) as UserModal;
+      delete (customerResponse as any).password;
+
       return SendResponse(
         res,
         STATUS_CODE.OK,
-        customer,
+        customerResponse,
         AUTH_MESSAGE.LOGIN,
         metadata
       );

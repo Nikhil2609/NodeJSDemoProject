@@ -2,11 +2,11 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../db';
 
 export class UserModal extends Model {
-  id!: number;
-  name!: string;
-  email!: string;
-  password!: string;
-  isActive!: boolean;
+  declare id: number;
+  declare name: string;
+  declare email: string;
+  declare password: string;
+  declare isActive: boolean;
 }
 
 UserModal.init(

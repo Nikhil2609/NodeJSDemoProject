@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { ErrorResponse, SendResponse } from '../utils/responsehelper';
 import { STATUS_CODE } from '../utils/enum';
-import jwt from 'jsonwebtoken';
 import { AUTH_MESSAGE } from '../utils/messages';
+import { verifyToken } from '../utils/commonFunction';
 
 // token management
 export const authorizeToken = (
@@ -20,9 +20,8 @@ export const authorizeToken = (
   }
   // verify token logic here
   try {
-    const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string);
-    console.log('verifyToken', verifyToken);
-    (req as any).user = verifyToken;
+    const verifyTokenUser = verifyToken(token);
+    (req as any).user = verifyTokenUser;
     next();
   } catch (error) {
     return ErrorResponse(
