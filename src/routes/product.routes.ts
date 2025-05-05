@@ -12,25 +12,9 @@ const productService = new ProductService(productRepository);
 const productController = new ProductController(productService);
 
 productRouter.get('/', productController.getProducts);
-productRouter.get(
-  '/:id',
-  celebrate(ProductSchema.get),
-  productController.getProductById
-);
-productRouter.post(
-  '/',
-  celebrate(ProductSchema.create),
-  productController.createProduct
-);
-productRouter.put(
-  '/:id',
-  celebrate(ProductSchema.update),
-  productController.updateProduct
-);
-productRouter.delete(
-  '/:id',
-  celebrate(ProductSchema.delete),
-  productController.deleteProduct
-);
+productRouter.get('/:id', celebrate(ProductSchema.get), productController.getProductById);
+productRouter.post('/', celebrate(ProductSchema.create), productController.createProduct);
+productRouter.put('/:id', celebrate(ProductSchema.update), productController.updateProduct);
+productRouter.delete('/:id', celebrate(ProductSchema.delete), productController.deleteProduct);
 
 export default productRouter;

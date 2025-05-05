@@ -18,28 +18,22 @@ export default class CategoryService {
   };
 
   createCategory = async (categoryData: any) => {
-    const newCategory =
-      await this.categoryRepository.createCategory(categoryData);
+    const newCategory = await this.categoryRepository.createCategory(categoryData);
     return newCategory;
   };
 
   updateCategory = async (categoryId: string, categoryData: any) => {
-    const updatedCategory = await this.categoryRepository.updateCategory(
-      categoryId,
-      categoryData
-    );
+    const updatedCategory = await this.categoryRepository.updateCategory(categoryId, categoryData);
     return updatedCategory;
   };
 
   deleteCategory = async (categoryId: string) => {
-    const deletedCategory =
-      await this.categoryRepository.deleteCategory(categoryId);
+    const deletedCategory = await this.categoryRepository.deleteCategory(categoryId);
     return deletedCategory;
   };
 
   getProductsByCategory = async (categoryId: string) => {
-    const products =
-      await this.categoryRepository.getProductsByCategory(categoryId);
+    const products = await this.categoryRepository.getProductsByCategory(categoryId);
     return products;
   };
 }

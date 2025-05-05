@@ -13,16 +13,11 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export const sendEmail = async (
-  to: string,
-  name: string,
-  emailSubject,
-  emailContent: any
-) => {
-  const htmlWithLayout = await ejs.renderFile(
-    path.join(__dirname, '../views/emails/layout.ejs'),
-    { subject: emailSubject, body: emailContent }
-  );
+export const sendEmail = async (to: string, name: string, emailSubject, emailContent: any) => {
+  const htmlWithLayout = await ejs.renderFile(path.join(__dirname, '../views/emails/layout.ejs'), {
+    subject: emailSubject,
+    body: emailContent
+  });
 
   const mailOptions = {
     from: 'nikpanchal333@gmail.com', // sender address
@@ -42,7 +37,10 @@ export const sendEmail = async (
 export const sendWelcomeEmail = async (to: string, name: string) => {
   const emailContent = await ejs.renderFile(
     path.join(__dirname, '../views/emails/register-user.ejs'),
-    { name: 'Nikhil', email: 'nikhil.panchal@tatvasoft.com' }
+    {
+      name: 'Nikhil',
+      email: 'nikhil.panchal@tatvasoft.com'
+    }
   );
 
   const emailSubject = 'User Registration';

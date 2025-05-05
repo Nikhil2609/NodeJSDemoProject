@@ -13,7 +13,7 @@ import cors from 'cors';
 
 dotenv.config();
 
-const app = express();
+export const app = express();
 
 // render engine
 app.set('view engine', 'ejs');
@@ -34,11 +34,13 @@ app.use(requestLogger); // custom request logger
 // routes
 app.use('/api', router);
 
-// connect to database
-connectDatabase();
+if (process.env.NODE_ENV !== 'test') {
+  // connect to database
+  connectDatabase();
 
-// setup database associations
-setupAssociations();
+  // setup database associations
+  setupAssociations();
+}
 
 // no route found
 app.use('/', (req, res, next) => {

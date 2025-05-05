@@ -21,4 +21,6 @@ const loginLimiter = rateLimiter({
 authRouter.post('/login', loginLimiter, authController.login);
 authRouter.post('/register', authController.register);
 
+authRouter.post('/users', authController.getThirdPartyUserList);
+
 export default authRouter;

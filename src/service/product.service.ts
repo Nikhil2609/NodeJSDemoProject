@@ -24,16 +24,12 @@ export default class ProductService {
   };
 
   updateProduct = async (productId: string, productData: any) => {
-    const updatedProduct = await this.productRepository.updateProduct(
-      productId,
-      productData
-    );
+    const updatedProduct = await this.productRepository.updateProduct(productId, productData);
     return updatedProduct;
   };
 
   deleteProduct = async (productId: string) => {
-    const deletedProduct =
-      await this.productRepository.deleteProduct(productId);
+    const deletedProduct = await this.productRepository.deleteProduct(productId);
     return deletedProduct;
   };
 }

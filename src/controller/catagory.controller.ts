@@ -15,8 +15,7 @@ export default class CategoryController {
     try {
       const currentPage = Number(req.query.page || 1);
       const offsetRows = Number((currentPage - 1) * 10);
-      const categoriesResponse =
-        await this.categoryService.getCategories(offsetRows);
+      const categoriesResponse = await this.categoryService.getCategories(offsetRows);
       const metaResponse = {
         totalRows: categoriesResponse.count
       };
@@ -44,18 +43,9 @@ export default class CategoryController {
       const categoryId = req.params.id;
       const category = await this.categoryService.getCategoryById(categoryId);
       if (!category) {
-        return ErrorResponse(
-          res,
-          STATUS_CODE.NOT_FOUND,
-          CATEGORY_MESSAGE.NOT_FOUND
-        );
+        return ErrorResponse(res, STATUS_CODE.NOT_FOUND, CATEGORY_MESSAGE.NOT_FOUND);
       }
-      return SendResponse(
-        res,
-        STATUS_CODE.OK,
-        category,
-        CATEGORY_MESSAGE.FETCH
-      );
+      return SendResponse(res, STATUS_CODE.OK, category, CATEGORY_MESSAGE.FETCH);
     } catch (error) {
       next(error);
     }
@@ -64,14 +54,8 @@ export default class CategoryController {
   createCategory = async (req: Request, res: Response) => {
     const categoryData = req.body;
     try {
-      const newCategory =
-        await this.categoryService.createCategory(categoryData);
-      return SendResponse(
-        res,
-        STATUS_CODE.CREATED,
-        newCategory,
-        CATEGORY_MESSAGE.CREATE
-      );
+      const newCategory = await this.categoryService.createCategory(categoryData);
+      return SendResponse(res, STATUS_CODE.CREATED, newCategory, CATEGORY_MESSAGE.CREATE);
     } catch (error) {
       console.log('error=>', error);
     }
@@ -80,32 +64,19 @@ export default class CategoryController {
   updateCategory = async (req: Request, res: Response) => {
     const customerId = req.params.id;
     const customerData = req.body;
-    const updatedCustomer = await this.categoryService.updateCategory(
-      customerId,
-      customerData
-    );
+    const updatedCustomer = await this.categoryService.updateCategory(customerId, customerData);
 
     if (!updatedCustomer) {
-      return ErrorResponse(
-        res,
-        STATUS_CODE.NOT_FOUND,
-        CATEGORY_MESSAGE.NOT_FOUND
-      );
+      return ErrorResponse(res, STATUS_CODE.NOT_FOUND, CATEGORY_MESSAGE.NOT_FOUND);
     }
 
-    return SendResponse(
-      res,
-      STATUS_CODE.OK,
-      updatedCustomer,
-      CATEGORY_MESSAGE.UPDATE
-    );
+    return SendResponse(res, STATUS_CODE.OK, updatedCustomer, CATEGORY_MESSAGE.UPDATE);
   };
 
   deleteCategory = async (req: Request, res: Response) => {
     const customerId = req.params.id;
 
-    const categoryExistInProducts =
-      await this.categoryService.getProductsByCategory(customerId);
+    const categoryExistInProducts = await this.categoryService.getProductsByCategory(customerId);
     if (categoryExistInProducts?.length > 0) {
       return ErrorResponse(
         res,
@@ -114,15 +85,10 @@ export default class CategoryController {
       );
     }
 
-    const deletedCategory =
-      await this.categoryService.deleteCategory(customerId);
+    const deletedCategory = await this.categoryService.deleteCategory(customerId);
 
     if (!deletedCategory) {
-      return ErrorResponse(
-        res,
-        STATUS_CODE.NOT_FOUND,
-        CATEGORY_MESSAGE.NOT_FOUND
-      );
+      return ErrorResponse(res, STATUS_CODE.NOT_FOUND, CATEGORY_MESSAGE.NOT_FOUND);
     }
 
     return SendResponse(res, STATUS_CODE.OK, null, CATEGORY_MESSAGE.DELETE);

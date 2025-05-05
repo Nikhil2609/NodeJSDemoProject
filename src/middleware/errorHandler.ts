@@ -9,12 +9,7 @@ import { STATUS_CODE } from '../utils/enum';
 import { isCelebrateError } from 'celebrate';
 import { ErrorResponse } from '../utils/responsehelper';
 
-export const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error('error=> ', err);
   console.error('error stack=> ', err?.stack);
   console.error('error message=> ', err?.message);

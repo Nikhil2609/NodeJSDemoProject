@@ -6,7 +6,8 @@ export const AUTH_MESSAGE = {
   INVALID_CRED: 'Invalid credentials.',
   LOGOUT: 'User logged out successfully.',
   UNAUTHORIZED: 'Unauthorized.',
-  INVALID_TOKEN: 'Invalid or expired token.'
+  INVALID_TOKEN: 'Invalid or expired token.',
+  USERS: 'User Fetched successfully.'
 };
 
 export const USER_MESSAGE = {

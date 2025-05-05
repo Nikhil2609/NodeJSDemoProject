@@ -21,24 +21,14 @@ export default class ProductController {
     const metaResponse: MetaPaginationResponse = {
       totalRows: response.count
     };
-    return SendResponse(
-      res,
-      STATUS_CODE.OK,
-      response.rows,
-      PRODUCT_MESSAGE.FETCH,
-      metaResponse
-    );
+    return SendResponse(res, STATUS_CODE.OK, response.rows, PRODUCT_MESSAGE.FETCH, metaResponse);
   };
 
   getProductById = async (req: Request, res: Response) => {
     const productId = req.params.id;
     const Product = await this.productService.getProductById(productId);
     if (!Product) {
-      return ErrorResponse(
-        res,
-        STATUS_CODE.NOT_FOUND,
-        PRODUCT_MESSAGE.NOT_FOUND
-      );
+      return ErrorResponse(res, STATUS_CODE.NOT_FOUND, PRODUCT_MESSAGE.NOT_FOUND);
     }
     return SendResponse(res, STATUS_CODE.OK, Product, PRODUCT_MESSAGE.FETCH);
   };
@@ -46,36 +36,19 @@ export default class ProductController {
   createProduct = async (req: Request, res: Response) => {
     const productData = req.body;
     const newProduct = await this.productService.createProduct(productData);
-    return SendResponse(
-      res,
-      STATUS_CODE.CREATED,
-      newProduct,
-      PRODUCT_MESSAGE.CREATE
-    );
+    return SendResponse(res, STATUS_CODE.CREATED, newProduct, PRODUCT_MESSAGE.CREATE);
   };
 
   updateProduct = async (req: Request, res: Response) => {
     const productId = req.params.id;
     const productData = req.body;
-    const updatedProduct = await this.productService.updateProduct(
-      productId,
-      productData
-    );
+    const updatedProduct = await this.productService.updateProduct(productId, productData);
 
     if (!updatedProduct) {
-      return ErrorResponse(
-        res,
-        STATUS_CODE.NOT_FOUND,
-        PRODUCT_MESSAGE.NOT_FOUND
-      );
+      return ErrorResponse(res, STATUS_CODE.NOT_FOUND, PRODUCT_MESSAGE.NOT_FOUND);
     }
 
-    return SendResponse(
-      res,
-      STATUS_CODE.OK,
-      updatedProduct,
-      PRODUCT_MESSAGE.UPDATE
-    );
+    return SendResponse(res, STATUS_CODE.OK, updatedProduct, PRODUCT_MESSAGE.UPDATE);
   };
 
   deleteProduct = async (req: Request, res: Response) => {
@@ -83,11 +56,7 @@ export default class ProductController {
     const deletedProduct = await this.productService.deleteProduct(productId);
 
     if (!deletedProduct) {
-      return ErrorResponse(
-        res,
-        STATUS_CODE.NOT_FOUND,
-        PRODUCT_MESSAGE.NOT_FOUND
-      );
+      return ErrorResponse(res, STATUS_CODE.NOT_FOUND, PRODUCT_MESSAGE.NOT_FOUND);
     }
 
     return SendResponse(res, STATUS_CODE.OK, null, PRODUCT_MESSAGE.DELETE);

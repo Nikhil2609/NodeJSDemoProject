@@ -33,11 +33,7 @@ export const SendResponse = (
   return response.status(statusCode).json(responseJson);
 };
 
-export const ErrorResponse = (
-  response: Response,
-  statusCode: number = 200,
-  error: string
-) => {
+export const ErrorResponse = (response: Response, statusCode: number = 200, error: string) => {
   let responseJson: APIResponse = {} as APIResponse;
   responseJson = {
     ...responseJson,
