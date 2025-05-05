@@ -9,6 +9,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { setupAssociations } from './models/associations';
 import path from 'path';
 import helmet from 'helmet';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -18,10 +19,16 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+const corsOptions = {
+  origin: ['http://localhost:3002', 'http://localhost:3000']
+};
+
 // middleware
 app.use(helmet()); // security middleware
+app.use(cors(corsOptions)); // allow api access to valid FE URL only
+
 app.use(express.json()); // parse JSON
-app.use(morgan());  // log requests
+app.use(morgan()); // log requests
 app.use(requestLogger); // custom request logger
 
 // routes
