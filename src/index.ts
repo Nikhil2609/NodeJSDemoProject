@@ -11,6 +11,9 @@ import path from 'path';
 import helmet from 'helmet';
 import cors from 'cors';
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './docs/swaggerConfig';
+
 dotenv.config();
 
 export const app = express();
@@ -33,6 +36,7 @@ app.use(requestLogger); // custom request logger
 
 // routes
 app.use('/api', router);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 if (process.env.NODE_ENV !== 'test') {
   // connect to database
